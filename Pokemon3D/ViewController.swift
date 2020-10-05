@@ -47,6 +47,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Pause the view's session
         sceneView.session.pause()
+        
+        sceneView.autoenablesDefaultLighting = true
     }
 
     // MARK: - ARSCNViewDelegate
@@ -65,10 +67,18 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             planeNode.eulerAngles.x = -Float.pi / 2
             
             node.addChildNode(planeNode)
+            
+            if let pokeScene = SCNScene(named: "art.scnassets/Eevee.scn") {
+                
+                if let pokeNode = pokeScene.rootNode.childNodes.first {
+                    pokeNode.eulerAngles.x = Float.pi / 2
+                    planeNode.addChildNode(pokeNode)
+                }
+            }
+        
         }
-        
-        
         return node
     }
     
 }
+
