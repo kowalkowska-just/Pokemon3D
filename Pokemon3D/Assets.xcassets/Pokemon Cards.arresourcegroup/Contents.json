@@ -1,0 +1,14 @@
+{
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "resources" : [
+    {
+      "filename" : "Eevee.arreferenceimage"
+    },
+    {
+      "filename" : "Oddish.arreferenceimage"
+    }
+  ]
+}
