@@ -28,11 +28,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         super.viewWillAppear(animated)
         
         // Create a session configuration
-        let configuration = ARImageTrackingConfiguration()
+        let configuration = ARWorldTrackingConfiguration()
 
         if let imageToTrack = ARReferenceImage.referenceImages(inGroupNamed: "Pokemon Cards", bundle: Bundle.main){
             
-            configuration.trackingImages = imageToTrack
+            configuration.detectionImages = imageToTrack
             configuration.maximumNumberOfTrackedImages = 2
             
             print("Images successfully added.")
@@ -58,6 +58,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let node = SCNNode()
         if let imageAnchor = anchor as? ARImageAnchor {
             
+            let namePoke = imageAnchor.referenceImage.name!
+            
             let plane = SCNPlane(width: imageAnchor.referenceImage.physicalSize.width, height: imageAnchor.referenceImage.physicalSize.height)
             
             plane.firstMaterial?.diffuse.contents = UIColor(white: 1.0, alpha: 0.5)
@@ -68,16 +70,31 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             node.addChildNode(planeNode)
             
-            if let pokeScene = SCNScene(named: "art.scnassets/Eevee.scn") {
-                
-                if let pokeNode = pokeScene.rootNode.childNodes.first {
-                    pokeNode.eulerAngles.x = Float.pi / 2
-                    planeNode.addChildNode(pokeNode)
-                }
-            }
+            showPoke(in: planeNode, namePoke: namePoke)
         
         }
         return node
+    }
+    
+    func showPoke(in planeNode: SCNNode, namePoke: String) {
+        
+        let poke3D: String = "art.scnassets/\(namePoke).scn"
+        
+        if let pokeScene = SCNScene(named: poke3D) {
+            
+            if let pokeNode = pokeScene.rootNode.childNodes.first {
+                
+                pokeNode.eulerAngles.x = Float.pi/2
+                
+                if namePoke == "Oddish" {
+                    pokeNode.eulerAngles.x = Float.pi
+                }
+                
+                planeNode.addChildNode(pokeNode)
+                
+            }
+        }
+
     }
     
 }
